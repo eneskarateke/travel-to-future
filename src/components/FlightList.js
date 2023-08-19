@@ -1,12 +1,21 @@
 import React, { useState } from "react";
 import Flight from "./Flight";
 import { useSelector } from "react-redux";
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 
 import "./flightlist.css";
 
 const FlightList = () => {
   const [selectedSort, setSelectedSort] = useState("departureTime"); // Default sorting by departure time
-
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
   const flightData = useSelector((state) => state.flights.data.flights);
   const filters = useSelector((state) => state.filter);
   const oneWay = useSelector((state) => state.filter.oneWay);
@@ -69,15 +78,26 @@ const FlightList = () => {
     <div className="flight-list">
       <div className="sorting-dropdown">
         <label htmlFor="sort">Sort By:</label>
-        <select
-          id="sort"
-          value={selectedSort}
-          onChange={(e) => setSelectedSort(e.target.value)}
-        >
-          <option value="departureTime">Departure Time</option>
-          <option value="arrivalTime">Arrival Time</option>
-          <option value="price">Price</option>
-        </select>
+        <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+          <DropdownToggle caret>
+            {selectedSort === "departureTime"
+              ? "Departure Time"
+              : selectedSort === "arrivalTime"
+              ? "Arrival Time"
+              : "Price"}
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem onClick={() => setSelectedSort("departureTime")}>
+              Departure Time
+            </DropdownItem>
+            <DropdownItem onClick={() => setSelectedSort("arrivalTime")}>
+              Arrival Time
+            </DropdownItem>
+            <DropdownItem onClick={() => setSelectedSort("price")}>
+              Price
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </div>
       {oneWay && sortedOutboundFlights.length > 0 && (
         <div>

@@ -1,0 +1,147 @@
+body {
+    background-color: #ececec;
+    font-family: "open-sans", sans-serif;
+  }
+  .flight-card{
+    border: 1px solid orange;
+ 
+  }
+  .flight-card-test {
+    padding: 16px;
+    background-color: white;
+    border-radius: 3px;
+    background-color: #fff;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+  }
+  .flight-card-test .bold {
+    font-weight: 700;
+  }
+  .flight-card-test p {
+    margin: 0;
+  }
+  .flight-card-test .flight-info {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #666666;
+  }
+  .flight-card-test .flight-info-upper,
+  .flight-card-test .flight-airport-upper,
+  .flight-card-test .flight-airline-upper {
+    margin-bottom: 8px;
+    font-size: 18px;
+    line-height: 1.5;
+    color: #333333;
+  }
+  .flight-card-test .flight-airline-upper{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    
+  }
+
+  .flight-card-test .flight-info {
+    display: flex;
+    width: 50%;
+  }
+  .flight-card-test .outbound-flight,
+  .flight-card-test .inbound-flight {
+    display: flex;
+    padding-right: 16px;
+    position: relative;
+  }
+  .flight-card-test .outbound-flight {
+    margin-bottom: 16px;
+  }
+  .flight-card-test .inbound-flight {
+    display: flex;
+  }
+  .flight-card-test .flight-airport-outbound {
+    text-align: center;
+  }
+  .flight-card-test .flight-travel {
+    margin: 0 16px;
+    text-align: center;
+    width: 64px;
+   
+  }
+
+  .flight-travel{
+    text-align: center;
+    align-items: center;
+  }
+ 
+  .flight-card-test .flight-airline {
+    margin-left: 32px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .flight-card-test .icon-way {
+    height: 6px;
+    width: 64px;
+    position: absolute;
+    top: 24px;
+  }
+  .flight-card-test .check-icon-bags {
+    width: 12px;
+  }
+  .flight-card-test .airline-logo {
+    height: 16px;
+    width: 16px;
+    display: inline-block;
+    vertical-align: text-top;
+  }
+  .flight-card-test .stop-wrapper {
+    width: 64px;
+    position: absolute;
+    top: 18px;
+    z-index: 1;
+  }
+  .flight-card-test .stop-item {
+    padding: 0 4px;
+    background: #ffffff;
+    text-align: center;
+  }
+  .flight-card-test .flight-price {
+    width: 30%;
+    padding-left: 16px;
+    background-image: linear-gradient(#c1c1c1 33%, rgba(255, 255, 255, 0) 0);
+    background-position: left;
+    background-size: 1px 8px;
+    background-repeat: repeat-y;
+    flex: auto;
+  }
+  .flight-card-test .price-label {
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333333;
+  }
+  .flight-card-test .price-label-grey {
+    color: #666666;
+    font-weight: normal;
+  }
+  .flight-card-test .flight-price-total {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 1.333333;
+    color: #ff8c00;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .flight-card-test .select-flight-button {
+    font-size: 16px;
+    color: #ffffff;
+    width: 100%;
+    background: #ff8c00;
+    padding: 8px;
+    border-radius: 3px;
+    border: none;
+  }
+  
