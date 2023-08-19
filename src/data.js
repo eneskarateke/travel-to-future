@@ -11,6 +11,17 @@ const flightsData = {
       flightDuration: "5h",
       price: 250.0,
     },
+    AB1223: {
+      flightNumber: "AB1223",
+      departureAirport: "LAX",
+      arrivalAirport: "JFK",
+      departureDate: "2023-09-02",
+      arrivalDate: "2023-09-02",
+      departureTime: "09:00 AM",
+      arrivalTime: "12:00 PM",
+      flightDuration: "5h",
+      price: 250.0,
+    },
     CD456: {
       flightNumber: "CD456",
       departureAirport: "LAX",

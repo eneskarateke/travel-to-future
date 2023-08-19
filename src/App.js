@@ -24,26 +24,16 @@ function App() {
     },
     []
   );
-  console.log("airports: ", airports);
 
-  const [filters, setFilters] = useState({
-    departureAirport: null,
-    arrivalAirport: null,
-    departureDate: null,
-    arrivalDate: null,
-  });
-  const [searchClicked, setSearchClicked] = useState(false); // Add searchClicked state
+  const [searchClicked, setSearchClicked] = useState(false);
 
   const handleSearch = () => {
-    setSearchClicked(true); // Set searchClicked to true when the search button is clicked
-    // Additional logic to handle other actions
+    setSearchClicked(true);
   };
 
-  const handleFilterChange = (filterName, value) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [filterName]: value,
-    }));
+  // Function to reset searchClicked to false
+  const handleInputFieldChange = () => {
+    setSearchClicked(false);
   };
 
   useEffect(() => {
@@ -59,13 +49,14 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        {/* Pass the handleInputFieldChange function to reset searchClicked */}
         <SearchBoxes
-          handleFilterChange={handleFilterChange}
           handleSearch={handleSearch}
+          handleInputFieldChange={handleInputFieldChange} // Pass this function
           airports={airports}
         />
       </header>
-      {searchClicked && <FlightList filters={filters} />}
+      {searchClicked && <FlightList />}
     </div>
   );
 }

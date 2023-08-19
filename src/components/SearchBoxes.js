@@ -1,61 +1,100 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
 import Select from "react-select";
+import { useDispatch, useSelector } from "react-redux";
+import { updateFilter } from "../actions";
 
 import "./searchbox.css";
 
-const FlightSearchForm = ({ handleSearch, airports }) => {
-  const [departureAirport, setDepartureAirport] = useState("");
-  const [arrivalAirport, setArrivalAirport] = useState("");
-  const [departureDate, setDepartureDate] = useState("");
-  const [returnDate, setReturnDate] = useState("");
-  const [oneWay, setOneWay] = useState(false);
+const FlightSearchForm = ({
+  handleSearch,
+  airports,
+  handleInputFieldChange,
+}) => {
+  const dispatch = useDispatch();
+  const filters = useSelector((state) => state.filter);
 
   const airportOptions = airports.map((airport) => ({
     value: airport,
     label: airport,
   }));
+  const customStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      color: "black",
+      fontWeight: state.isFocused ? "bold" : "normal", // Üzerine gelindiğinde kalın hale getirme
+    }),
+  };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const handleDepartureAirportChange = (selectedOption) => {
+    dispatch(
+      updateFilter({
+        departureAirport: selectedOption.value,
+      })
+    );
+    handleInputFieldChange(); // Call the prop function here
+  };
 
-  const onSubmit = (data) => {
+  const handleArrivalAirportChange = (selectedOption) => {
+    dispatch(
+      updateFilter({
+        arrivalAirport: selectedOption.value,
+      })
+    );
+    handleInputFieldChange(); // Call the prop function here
+  };
+
+  const handleDepartureDateChange = (e) => {
+    const newDate = e.target.value;
+    dispatch(updateFilter({ departureDate: newDate }));
+    handleInputFieldChange(); // Call the prop function here
+  };
+
+  const handleReturnDateChange = (e) => {
+    const newDate = e.target.value;
+    dispatch(updateFilter({ returnDate: newDate }));
+    handleInputFieldChange(); // Call the prop function here
+  };
+
+  const handleOneWayChange = (e) => {
+    dispatch(
+      updateFilter({
+        oneWay: e.target.checked,
+      })
+    );
+    handleInputFieldChange(); // Call the prop function here
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
     handleSearch();
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit(onSubmit)}>
+    <form className="form" onSubmit={onSubmit}>
       <div className="flex-column">
         <Select
           options={airportOptions}
+          required
+          styles={customStyles}
           value={airportOptions.find(
-            (airport) => airport.value === departureAirport
+            (airport) => airport.value === filters.departureAirport
           )}
-          onChange={(selectedOption) =>
-            setDepartureAirport(selectedOption.value)
-          }
+          onChange={handleDepartureAirportChange}
           placeholder="Kalkış Havaalanı Seçiniz"
         />
-        {errors.departureAirport && (
-          <p className="error">Kalkış Havaalanı gereklidir.</p>
-        )}
       </div>
 
       <div className="flex-column">
         <Select
           options={airportOptions}
+          required
+          styles={customStyles}
           value={airportOptions.find(
-            (airport) => airport.value === arrivalAirport
+            (airport) => airport.value === filters.arrivalAirport
           )}
-          onChange={(selectedOption) => setArrivalAirport(selectedOption.value)}
+          onChange={handleArrivalAirportChange}
           placeholder="Varış Havaalanı Seçiniz"
         />
-        {errors.arrivalAirport && (
-          <p className="error">Varış Havaalanı gereklidir.</p>
-        )}
       </div>
 
       <div className="flex-column">
@@ -63,34 +102,30 @@ const FlightSearchForm = ({ handleSearch, airports }) => {
         <input
           type="date"
           placeholder="Gidiş Tarihi"
-          onChange={(e) => setDepartureDate(e.target.value)} // Update the state
-          {...register("departureDate", { required: true })}
+          value={filters.departureDate}
+          onChange={handleDepartureDateChange}
+          required
         />
-        {errors.departureDate && (
-          <p className="error">Gidiş Tarihi gereklidir.</p>
-        )}
       </div>
 
-      {!oneWay && (
+      {!filters.oneWay && (
         <div className="flex-column">
           <p>Dönüş tarihi:</p>
           <input
             type="date"
             placeholder="Dönüş Tarihi"
-            onChange={(e) => setReturnDate(e.target.value)} // Update the state
-            {...register("returnDate", { required: !oneWay })}
+            value={filters.returnDate}
+            onChange={handleReturnDateChange}
+            required={!filters.oneWay}
           />
-          {!oneWay && errors.returnDate && (
-            <p className="error">Dönüş Tarihi gereklidir.</p>
-          )}
         </div>
       )}
 
       <label>
         <input
           type="checkbox"
-          {...register("oneWay")}
-          onChange={(e) => setOneWay(e.target.checked)}
+          checked={filters.oneWay}
+          onChange={handleOneWayChange}
         />
         Tek Yönlü Uçuş
       </label>

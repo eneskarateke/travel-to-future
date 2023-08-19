@@ -1,45 +1,63 @@
 import React from "react";
-import Flight from "./Flight"; // Flight bileşenini import edin
+import Flight from "./Flight";
 import { useSelector } from "react-redux";
 
 import "./flightlist.css";
 
-const FlightList = ({ filters }) => {
+const FlightList = () => {
   const flightData = useSelector((state) => state.flights.data.flights);
+  const filters = useSelector((state) => state.filter);
+  const oneWay = useSelector((state) => state.filter.oneWay);
 
-  const filteredOutboundFlights = Object.values(flightData).filter((flight) => {
+  const outboundFlights = Object.values(flightData).filter((flight) => {
+    const meetsDepartureCriteria =
+      !filters.departureAirport ||
+      flight.departureAirport === filters.departureAirport;
+    const meetsArrivalCriteria =
+      !filters.arrivalAirport ||
+      flight.arrivalAirport === filters.arrivalAirport;
+    const meetsDepartureDateCriteria =
+      !filters.departureDate || flight.departureDate === filters.departureDate;
+
     return (
-      (!filters.departureAirport ||
-        flight.departureAirport === filters.departureAirport) &&
-      (!filters.outboundDate || flight.departureDate === filters.outboundDate)
+      meetsDepartureCriteria &&
+      meetsArrivalCriteria &&
+      meetsDepartureDateCriteria
     );
   });
 
-  const filteredReturnFlights = Object.values(flightData).filter((flight) => {
-    if (filters.returnDate) {
-      return (
-        flight.departureAirport === filters.arrivalAirport &&
-        flight.arrivalAirport === filters.departureAirport &&
-        flight.departureDate === filters.returnDate
-      );
-    }
-    return false;
+  const returnFlights = Object.values(flightData).filter((flight) => {
+    const meetsDepartureCriteria =
+      !filters.arrivalAirport ||
+      flight.departureAirport === filters.arrivalAirport;
+    const meetsArrivalCriteria =
+      !filters.departureAirport ||
+      flight.arrivalAirport === filters.departureAirport;
+    const meetsReturnDateCriteria =
+      !filters.returnDate || flight.departureDate === filters.returnDate;
+
+    return (
+      !oneWay && // Only consider return flights if not one-way
+      meetsDepartureCriteria &&
+      meetsArrivalCriteria &&
+      meetsReturnDateCriteria
+    );
   });
 
   return (
     <div className="flight-list">
       <h2>Gidiş Uçuşları</h2>
-      {filteredOutboundFlights.map((flight) => (
+      {outboundFlights.map((flight) => (
         <Flight key={flight.flightNumber} flightDetails={flight} />
       ))}
 
-      {filters.returnDate && (
-        <>
+      {!oneWay && returnFlights.length > 0 && (
+        <div>
           <h2>Dönüş Uçuşları</h2>
-          {filteredReturnFlights.map((flight) => (
+          {returnFlights.map((flight) => (
             <Flight key={flight.flightNumber} flightDetails={flight} />
           ))}
-        </>
+        </div>
       )}
     </div>
   );
