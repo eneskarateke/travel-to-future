@@ -1,0 +1,28 @@
+.form{
+    display:flex;
+    flex-direction: row;
+    margin: 2rem 2rem;
+    gap:1rem;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.form p{
+font-size: 1rem;
+color: aliceblue;}
+
+.flex-column{
+    display:flex;
+    flex-direction: column;
+    text-align: center;
+    
+}
+
+input {
+    height: 2rem;
+}
+
+.error{
+    color: red;
+}
+

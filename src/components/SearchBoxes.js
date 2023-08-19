@@ -1,61 +1,102 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import Select from "react-select";
 
-const FlightSearchForm = () => {
+import "./searchbox.css";
+
+const FlightSearchForm = ({ handleSearch, airports }) => {
   const [departureAirport, setDepartureAirport] = useState("");
   const [arrivalAirport, setArrivalAirport] = useState("");
   const [departureDate, setDepartureDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
-  const [oneWay, setOneWay] = useState(true);
+  const [oneWay, setOneWay] = useState(false);
 
-  const handleSearch = () => {
-    // Arama işlemleri burada yapılabilir
-    console.log({
-      departureAirport,
-      arrivalAirport,
-      departureDate,
-      returnDate,
-      oneWay,
-    });
+  const airportOptions = airports.map((airport) => ({
+    value: airport,
+    label: airport,
+  }));
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    handleSearch();
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Kalkış Havaalanı"
-        value={departureAirport}
-        onChange={(e) => setDepartureAirport(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Varış Havaalanı"
-        value={arrivalAirport}
-        onChange={(e) => setArrivalAirport(e.target.value)}
-      />
-      <input
-        type="date"
-        placeholder="Kalkış Tarihi"
-        value={departureDate}
-        onChange={(e) => setDepartureDate(e.target.value)}
-      />
-      {!oneWay && (
+    <form className="form" onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex-column">
+        <Select
+          options={airportOptions}
+          value={airportOptions.find(
+            (airport) => airport.value === departureAirport
+          )}
+          onChange={(selectedOption) =>
+            setDepartureAirport(selectedOption.value)
+          }
+          placeholder="Kalkış Havaalanı Seçiniz"
+        />
+        {errors.departureAirport && (
+          <p className="error">Kalkış Havaalanı gereklidir.</p>
+        )}
+      </div>
+
+      <div className="flex-column">
+        <Select
+          options={airportOptions}
+          value={airportOptions.find(
+            (airport) => airport.value === arrivalAirport
+          )}
+          onChange={(selectedOption) => setArrivalAirport(selectedOption.value)}
+          placeholder="Varış Havaalanı Seçiniz"
+        />
+        {errors.arrivalAirport && (
+          <p className="error">Varış Havaalanı gereklidir.</p>
+        )}
+      </div>
+
+      <div className="flex-column">
+        <p>Gidiş tarihi:</p>
         <input
           type="date"
-          placeholder="Varış Tarihi"
-          value={returnDate}
-          onChange={(e) => setReturnDate(e.target.value)}
+          placeholder="Gidiş Tarihi"
+          onChange={(e) => setDepartureDate(e.target.value)} // Update the state
+          {...register("departureDate", { required: true })}
         />
+        {errors.departureDate && (
+          <p className="error">Gidiş Tarihi gereklidir.</p>
+        )}
+      </div>
+
+      {!oneWay && (
+        <div className="flex-column">
+          <p>Dönüş tarihi:</p>
+          <input
+            type="date"
+            placeholder="Dönüş Tarihi"
+            onChange={(e) => setReturnDate(e.target.value)} // Update the state
+            {...register("returnDate", { required: !oneWay })}
+          />
+          {!oneWay && errors.returnDate && (
+            <p className="error">Dönüş Tarihi gereklidir.</p>
+          )}
+        </div>
       )}
+
       <label>
         <input
           type="checkbox"
-          checked={oneWay}
-          onChange={() => setOneWay(!oneWay)}
+          {...register("oneWay")}
+          onChange={(e) => setOneWay(e.target.checked)}
         />
         Tek Yönlü Uçuş
       </label>
-      <button onClick={handleSearch}>Ara</button>
-    </div>
+
+      <button type="submit">Ara</button>
+    </form>
   );
 };
 
