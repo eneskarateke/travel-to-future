@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import "./App.css";
+import SearchBoxes from "./components/SearchBoxes";
+import FlightList from "./components/FlightList";
+
+import { useDispatch, useSelector } from "react-redux";
+
+import { sendData } from "./actions";
+import data from "./data";
 
 function App() {
+  const dispatch = useDispatch();
+  const fetchedData = useSelector((state) => state.flights);
+
+  useEffect(() => {
+    if (!fetchedData) {
+      dispatch(sendData(data));
+    }
+  }, [dispatch, fetchedData]);
+
+  if (!fetchedData) {
+    return <div className="loader">Loading...</div>;
+  }
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <SearchBoxes />
       </header>
+      <FlightList />
     </div>
   );
 }
