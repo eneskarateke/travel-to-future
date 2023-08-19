@@ -1,5 +1,17 @@
 .flight-list p{
-    color: black
+    color: black;
+    }
+
+    .flights{
+        display: flex;
+       
+    }
+
+    .departureFlights,
+.arrivalFlights {
+  flex: 1; /* Allow children to grow and take equal space */
+  padding: 1rem;
+  width: 50%;
 }
 .sorting-dropdown{
     display: flex;
