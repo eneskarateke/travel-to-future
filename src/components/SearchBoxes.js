@@ -18,7 +18,7 @@ const FlightSearchForm = ({ airports }) => {
       ...provided,
       color: "black",
       width: "100px",
-      fontWeight: state.isFocused ? "bold" : "normal", // Üzerine gelindiğinde kalın hale getirme
+      fontWeight: state.isFocused ? "bold" : "normal",
     }),
   };
 

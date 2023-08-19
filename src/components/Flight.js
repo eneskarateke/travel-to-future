@@ -8,21 +8,23 @@ const Flight = ({ flightDetails }) => {
 
   return (
     <div className="flight-card">
-      <div class="flight-card-test">
-        <div class="flight-info">
-          <div class="outbound-flight">
-            <div class="flight-airport flight-info flight-airport-outbound">
-              <p class="flight-info-upper">
-                <span class="bold">{flightDetails.departureAirport} </span>
+      <div className="flight-card-test">
+        <div className="flight-info">
+          <div className="outbound-flight">
+            <div className="flight-airport flight-info flight-airport-outbound">
+              <p className="flight-info-upper">
+                <span className="bold">{flightDetails.departureAirport} </span>
                 {flightDetails.departureTime}
               </p>
               <p>{flightDetails.departureCity}</p>
             </div>
 
-            <div class="flight-travel flight-info">
-              <p class="flight-info-upper">{flightDetails.flightDuration}</p>
+            <div className="flight-travel flight-info">
+              <p className="flight-info-upper">
+                {flightDetails.flightDuration}
+              </p>
 
-              <svg class="icon-way" viewBox="0 0 341 32">
+              <svg className="icon-way" viewBox="0 0 341 32">
                 <path
                   fill="#ff8c00"
                   style={{ fill: "var(--color1, #ff8c00)" }}
@@ -33,47 +35,47 @@ const Flight = ({ flightDetails }) => {
               <p>1 Stop</p>
             </div>
 
-            <div class="flight-airport flight-info flight-airport-inbound">
-              <p class="flight-airport-upper">
+            <div className="flight-airport flight-info flight-airport-inbound">
+              <p className="flight-airport-upper">
                 {flightDetails.arrivalTime}
-                <span class="bold"> {flightDetails.arrivalAirport}</span>
+                <span className="bold"> {flightDetails.arrivalAirport}</span>
               </p>
               <p>{flightDetails.arrivalCity}</p>
             </div>
 
-            <div class="flight-airline flight-info">
-              <p class="flight-airline-upper">
-                <span class="airline-logo">{plane}</span>{" "}
-                <span class="">{flightDetails.airline}</span>
+            <div className="flight-airline flight-info">
+              <p className="flight-airline-upper">
+                <span className="airline-logo">{plane}</span>{" "}
+                <span className="">{flightDetails.airline}</span>
               </p>
               <p>
-                <svg class="check-icon-bags" viewBox="0 0 38 32">
+                <svg className="check-icon-bags" viewBox="0 0 38 32">
                   <path
                     fill="none"
                     stroke="#1ca381"
-                    stroke-width="6.4"
-                    stroke-miterlimit="4"
-                    stroke-linecap="square"
-                    stroke-linejoin="miter"
+                    strokeWidth="6.4"
+                    strokeMiterlimit="4"
+                    strokeLinecap="square"
+                    strokeLinejoin="miter"
                     style={{ stroke: "var(--color1, #1ca381)" }}
                     d="M6.4 17.681l7.476 7.919 18.124-19.2"
                   ></path>
                 </svg>
-                <span class="">Cabin bag included</span>
+                <span className="">Cabin bag included</span>
               </p>
             </div>
           </div>
         </div>
 
-        <div class="flight-price flight-info">
-          <p class="price-label">
+        <div className="flight-price flight-info">
+          <p className="price-label">
             {" "}
             Flight
             <br />
-            <span class="price-label-grey">Per person</span>
+            <span className="price-label-grey">Per person</span>
           </p>
-          <span class="flight-price-total">${flightDetails.price}</span>
-          <button class="select-flight-button">Select</button>
+          <span className="flight-price-total">${flightDetails.price}</span>
+          <button className="select-flight-button">Select</button>
         </div>
       </div>
     </div>

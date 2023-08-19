@@ -11,7 +11,7 @@ import {
 import "./flightlist.css";
 
 const FlightList = () => {
-  const [selectedSort, setSelectedSort] = useState("departureTime"); // Default sorting by departure time
+  const [selectedSort, setSelectedSort] = useState("departureTime");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -64,7 +64,7 @@ const FlightList = () => {
       !filters.returnDate || flight.departureDate === filters.returnDate;
 
     return (
-      !oneWay && // Only consider return flights if not one-way
+      !oneWay &&
       meetsDepartureCriteria &&
       meetsArrivalCriteria &&
       meetsReturnDateCriteria
@@ -75,7 +75,7 @@ const FlightList = () => {
   const sortedReturnFlights = sortFlights(returnFlights, selectedSort);
 
   return (
-    <div className="flight-list">
+    <>
       <div className="sorting-dropdown">
         <label htmlFor="sort">Sort By:</label>
         <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
@@ -99,30 +99,53 @@ const FlightList = () => {
           </DropdownMenu>
         </Dropdown>
       </div>
-      {oneWay && sortedOutboundFlights.length > 0 && (
-        <div>
-          <h2>Uçuşlar</h2>
-          {sortedOutboundFlights.map((flight) => (
-            <Flight key={flight.flightNumber} flightDetails={flight} />
-          ))}
-        </div>
-      )}
-
-      {!oneWay &&
-        sortedReturnFlights.length > 0 &&
-        sortedOutboundFlights.length > 0 && (
+      <div className="flight-list">
+        {oneWay && sortedOutboundFlights.length > 0 && (
           <div>
-            <h2>Gidiş Uçuşları</h2>
+            <h2>Uçuşlar</h2>
             {sortedOutboundFlights.map((flight) => (
-              <Flight key={flight.flightNumber} flightDetails={flight} />
-            ))}
-            <h2>Dönüş Uçuşları</h2>
-            {sortedReturnFlights.map((flight) => (
               <Flight key={flight.flightNumber} flightDetails={flight} />
             ))}
           </div>
         )}
-    </div>
+
+        {oneWay && sortedOutboundFlights.length === 0 && (
+          <div className="departureFlights">
+            <p>Uçuş bulunamadı.</p>
+          </div>
+        )}
+
+        {!oneWay && (
+          <div className="flights">
+            {sortedOutboundFlights.length > 0 ? (
+              <div className="departureFlights">
+                <h2>Gidiş Uçuşları</h2>
+                {sortedOutboundFlights.map((flight) => (
+                  <Flight key={flight.flightNumber} flightDetails={flight} />
+                ))}
+              </div>
+            ) : (
+              <div className="arrivalFlights">
+                <p>Uçuş bulunamadı.</p>
+              </div>
+            )}
+
+            {sortedReturnFlights.length > 0 && (
+              <div className="arrivalFlights">
+                <h2>Dönüş Uçuşları</h2>
+                {sortedReturnFlights.map((flight) => (
+                  <Flight key={flight.flightNumber} flightDetails={flight} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {oneWay &&
+          sortedOutboundFlights.length === 0 &&
+          sortedReturnFlights.length === 0 && <p>Uçuş bulunamadı.</p>}
+      </div>
+    </>
   );
 };
 
