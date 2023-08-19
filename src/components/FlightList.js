@@ -109,43 +109,21 @@ const FlightList = () => {
           </div>
         )}
 
-        {oneWay && sortedOutboundFlights.length === 0 && (
-          <div className="departureFlights">
-            <p>Uçuş bulunamadı.</p>
+      {!oneWay &&
+        sortedReturnFlights.length > 0 &&
+        sortedOutboundFlights.length > 0 && (
+          <div>
+            <h2>Gidiş Uçuşları</h2>
+            {sortedOutboundFlights.map((flight) => (
+              <Flight key={flight.flightNumber} flightDetails={flight} />
+            ))}
+            <h2>Dönüş Uçuşları</h2>
+            {sortedReturnFlights.map((flight) => (
+              <Flight key={flight.flightNumber} flightDetails={flight} />
+            ))}
           </div>
         )}
-
-        {!oneWay && (
-          <div className="flights">
-            {sortedOutboundFlights.length > 0 ? (
-              <div className="departureFlights">
-                <h2>Gidiş Uçuşları</h2>
-                {sortedOutboundFlights.map((flight) => (
-                  <Flight key={flight.flightNumber} flightDetails={flight} />
-                ))}
-              </div>
-            ) : (
-              <div className="arrivalFlights">
-                <p>Uçuş bulunamadı.</p>
-              </div>
-            )}
-
-            {sortedReturnFlights.length > 0 && (
-              <div className="arrivalFlights">
-                <h2>Dönüş Uçuşları</h2>
-                {sortedReturnFlights.map((flight) => (
-                  <Flight key={flight.flightNumber} flightDetails={flight} />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {oneWay &&
-          sortedOutboundFlights.length === 0 &&
-          sortedReturnFlights.length === 0 && <p>Uçuş bulunamadı.</p>}
-      </div>
-    </>
+    </div>
   );
 };
 
