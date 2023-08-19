@@ -25,17 +25,6 @@ function App() {
     []
   );
 
-  const [searchClicked, setSearchClicked] = useState(false);
-
-  const handleSearch = () => {
-    setSearchClicked(true);
-  };
-
-  // Function to reset searchClicked to false
-  const handleInputFieldChange = () => {
-    setSearchClicked(false);
-  };
-
   useEffect(() => {
     if (!fetchedData) {
       dispatch(sendData(data));
@@ -49,14 +38,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {/* Pass the handleInputFieldChange function to reset searchClicked */}
-        <SearchBoxes
-          handleSearch={handleSearch}
-          handleInputFieldChange={handleInputFieldChange} // Pass this function
-          airports={airports}
-        />
+        <SearchBoxes airports={airports} />
       </header>
-      {searchClicked && <FlightList />}
+      <FlightList />
     </div>
   );
 }

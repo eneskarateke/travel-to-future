@@ -19,7 +19,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         flights: fetchedData,
       };
-    case "UPDATE_FILTER":
+    case UPDATE_FILTER:
       return {
         ...state,
         filter: {

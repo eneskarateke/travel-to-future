@@ -5,11 +5,7 @@ import { updateFilter } from "../actions";
 
 import "./searchbox.css";
 
-const FlightSearchForm = ({
-  handleSearch,
-  airports,
-  handleInputFieldChange,
-}) => {
+const FlightSearchForm = ({ airports }) => {
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.filter);
 
@@ -21,6 +17,7 @@ const FlightSearchForm = ({
     option: (provided, state) => ({
       ...provided,
       color: "black",
+      width: "100px",
       fontWeight: state.isFocused ? "bold" : "normal", // Üzerine gelindiğinde kalın hale getirme
     }),
   };
@@ -31,7 +28,6 @@ const FlightSearchForm = ({
         departureAirport: selectedOption.value,
       })
     );
-    handleInputFieldChange(); // Call the prop function here
   };
 
   const handleArrivalAirportChange = (selectedOption) => {
@@ -40,19 +36,16 @@ const FlightSearchForm = ({
         arrivalAirport: selectedOption.value,
       })
     );
-    handleInputFieldChange(); // Call the prop function here
   };
 
   const handleDepartureDateChange = (e) => {
     const newDate = e.target.value;
     dispatch(updateFilter({ departureDate: newDate }));
-    handleInputFieldChange(); // Call the prop function here
   };
 
   const handleReturnDateChange = (e) => {
     const newDate = e.target.value;
     dispatch(updateFilter({ returnDate: newDate }));
-    handleInputFieldChange(); // Call the prop function here
   };
 
   const handleOneWayChange = (e) => {
@@ -61,17 +54,13 @@ const FlightSearchForm = ({
         oneWay: e.target.checked,
       })
     );
-    handleInputFieldChange(); // Call the prop function here
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    handleSearch();
   };
 
   return (
-    <form className="form" onSubmit={onSubmit}>
+    <form className="form">
       <div className="flex-column">
+        <label htmlFor="departure">Kalkış havalimanı</label>
+
         <Select
           options={airportOptions}
           required
@@ -85,6 +74,8 @@ const FlightSearchForm = ({
       </div>
 
       <div className="flex-column">
+        <label htmlFor="arrival">Varış havalimanı</label>
+
         <Select
           options={airportOptions}
           required
@@ -98,7 +89,7 @@ const FlightSearchForm = ({
       </div>
 
       <div className="flex-column">
-        <p>Gidiş tarihi:</p>
+        Gidiş tarihi
         <input
           type="date"
           placeholder="Gidiş Tarihi"
@@ -110,7 +101,7 @@ const FlightSearchForm = ({
 
       {!filters.oneWay && (
         <div className="flex-column">
-          <p>Dönüş tarihi:</p>
+          Dönüş tarihi
           <input
             type="date"
             placeholder="Dönüş Tarihi"
@@ -121,16 +112,14 @@ const FlightSearchForm = ({
         </div>
       )}
 
-      <label>
+      <label className="label">
+        Tek Yönlü Uçuş
         <input
           type="checkbox"
           checked={filters.oneWay}
           onChange={handleOneWayChange}
         />
-        Tek Yönlü Uçuş
       </label>
-
-      <button type="submit">Ara</button>
     </form>
   );
 };

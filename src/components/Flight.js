@@ -6,7 +6,10 @@ const Flight = ({ flightDetails }) => {
     <div className="flight">
       <h2>Uçuş Detayları</h2>
       <p>Uçuş Numarası: {flightDetails.flightNumber}</p>
+      <p>Havayolu Şirketi: {flightDetails.airline}</p>
+      <p>Kalkış Şehri: {flightDetails.departureCity}</p>
       <p>Kalkış Havaalanı: {flightDetails.departureAirport}</p>
+      <p>Varış Şehri: {flightDetails.arrivalCity}</p>
       <p>Varış Havaalanı: {flightDetails.arrivalAirport}</p>
       <p>Kalkış Tarihi: {flightDetails.departureDate}</p>
       <p>Varış Tarihi: {flightDetails.arrivalDate}</p>
