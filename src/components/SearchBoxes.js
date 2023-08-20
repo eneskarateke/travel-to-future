@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFilter } from "../actions";
@@ -17,7 +17,7 @@ const FlightSearchForm = ({ airports }) => {
     option: (provided, state) => ({
       ...provided,
       color: "black",
-      width: "100px",
+      width: "auto",
       fontWeight: state.isFocused ? "bold" : "normal",
     }),
   };
@@ -40,14 +40,25 @@ const FlightSearchForm = ({ airports }) => {
 
   const handleDepartureDateChange = (e) => {
     const newDate = e.target.value;
-    dispatch(updateFilter({ departureDate: newDate }));
+
+    if (!filters.oneWay && new Date(newDate) > new Date(filters.returnDate)) {
+      alert("Dönüş tarihi gidiş tarihinden önce olamaz!");
+    } else {
+      dispatch(updateFilter({ departureDate: newDate }));
+    }
   };
 
   const handleReturnDateChange = (e) => {
     const newDate = e.target.value;
-    dispatch(updateFilter({ returnDate: newDate }));
+    if (
+      !filters.oneWay &&
+      new Date(newDate) < new Date(filters.departureDate)
+    ) {
+      alert("Dönüş tarihi gidiş tarihinden önce olamaz!");
+    } else {
+      dispatch(updateFilter({ returnDate: newDate }));
+    }
   };
-
   const handleOneWayChange = (e) => {
     dispatch(
       updateFilter({
@@ -59,7 +70,7 @@ const FlightSearchForm = ({ airports }) => {
   return (
     <form className="form">
       <div className="flex-column">
-        <label htmlFor="departure">Kalkış havalimanı</label>
+        <label htmlFor="departure"></label>
 
         <Select
           options={airportOptions}
@@ -74,7 +85,7 @@ const FlightSearchForm = ({ airports }) => {
       </div>
 
       <div className="flex-column">
-        <label htmlFor="arrival">Varış havalimanı</label>
+        <label htmlFor="arrival"></label>
 
         <Select
           options={airportOptions}
@@ -88,8 +99,8 @@ const FlightSearchForm = ({ airports }) => {
         />
       </div>
 
-      <div className="flex-column">
-        Gidiş tarihi
+      <div className="flex-column  custom-datepicker">
+        <p>Gidiş tarihi</p>
         <input
           type="date"
           placeholder="Gidiş Tarihi"
@@ -100,8 +111,8 @@ const FlightSearchForm = ({ airports }) => {
       </div>
 
       {!filters.oneWay && (
-        <div className="flex-column">
-          Dönüş tarihi
+        <div className="flex-column custom-datepicker">
+          <p>Dönüş tarihi</p>
           <input
             type="date"
             placeholder="Dönüş Tarihi"
@@ -113,7 +124,7 @@ const FlightSearchForm = ({ airports }) => {
       )}
 
       <label className="label">
-        Tek Yönlü Uçuş
+        <p> Tek Yönlü Uçuş</p>
         <input
           type="checkbox"
           checked={filters.oneWay}

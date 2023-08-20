@@ -19,20 +19,29 @@ const FlightList = () => {
   const flightData = useSelector((state) => state.flights.data.flights);
   const filters = useSelector((state) => state.filter);
   const oneWay = useSelector((state) => state.filter.oneWay);
-
   const sortFlights = (flights, sortBy) => {
     return flights.slice().sort((a, b) => {
-      if (sortBy === "departureTime") {
-        const getHours = (time) => parseInt(time.split(":")[0]);
-        const aIsAM = getHours(a.departureTime) < 12;
-        const bIsAM = getHours(b.departureTime) < 12;
+      if (sortBy === "departureTime" || sortBy === "arrivalTime") {
+        const getTimeInMinutes = (time) => {
+          const [hoursA, minutesA] = time.split(":").map(Number);
+          return hoursA * 60 + minutesA;
+        };
 
-        if (aIsAM !== bIsAM) {
-          return aIsAM ? -1 : 1;
-        }
+        const aTime = getTimeInMinutes(
+          sortBy === "departureTime" ? a.departureTime : a.arrivalTime
+        );
+        const bTime = getTimeInMinutes(
+          sortBy === "departureTime" ? b.departureTime : b.arrivalTime
+        );
+
+        return aTime - bTime;
+      } else if (sortBy === "price") {
+        return a.price - b.price;
+      } else if (sortBy === "flightDuration") {
+        return a.flightDuration - b.flightDuration;
       }
 
-      return a[sortBy] - b[sortBy];
+      return 0;
     });
   };
 
@@ -84,7 +93,9 @@ const FlightList = () => {
               ? "Departure Time"
               : selectedSort === "arrivalTime"
               ? "Arrival Time"
-              : "Price"}
+              : selectedSort === "price"
+              ? "Price"
+              : "Flight Duration"}
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={() => setSelectedSort("departureTime")}>
@@ -95,6 +106,9 @@ const FlightList = () => {
             </DropdownItem>
             <DropdownItem onClick={() => setSelectedSort("price")}>
               Price
+            </DropdownItem>
+            <DropdownItem onClick={() => setSelectedSort("flightDuration")}>
+              Flight Duration
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -148,6 +162,7 @@ const FlightList = () => {
         {oneWay &&
           sortedOutboundFlights.length === 0 &&
           sortedReturnFlights.length === 0 && <p>Uçuş bulunamadı.</p>}
+        {oneWay}
       </div>
     </>
   );

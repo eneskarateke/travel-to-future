@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import SearchBoxes from "./components/SearchBoxes";
 import FlightList from "./components/FlightList";
@@ -6,6 +6,8 @@ import FlightList from "./components/FlightList";
 import { useDispatch, useSelector } from "react-redux";
 
 import { sendData } from "./actions";
+import { ClipLoader } from "react-spinners";
+
 import data from "./data";
 
 function App() {
@@ -32,7 +34,16 @@ function App() {
   }, [dispatch, fetchedData]);
 
   if (!fetchedData) {
-    return <div className="loader">Loading...</div>;
+    return (
+      <div className="App">
+        <header className="App-header">
+          <SearchBoxes airports={airports} />
+        </header>
+        <div className="loader">
+          <ClipLoader color="orange" loading={true} size={150} />
+        </div>
+      </div>
+    );
   }
 
   return (

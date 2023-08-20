@@ -17,19 +17,58 @@ color: aliceblue;}
     flex-direction: column;
     text-align: center;
     justify-content: flex-start;
-    gap: 1rem;
+     gap: 1rem;
     
 }
+
+.flex-column .custom-datepicker{
+    text-align: center;
+}
+.custom-datepicker {
+
+    border: 2px solid rgb(189, 69, 33);
+    background-color: rgb(255, 255, 255);
+font-weight: bold;
+align-items: center; 
+padding: 14px;
+
+
+
+ }
+
+ .custom-datepicker p {
+color:rgb(189, 69, 33);
+font-weight: bold;
+margin-bottom: 0rem;
+font-size: 1rem;
+
+
+ }
+
 
 .label{
     display: flex;
     flex-direction: column;
+    border: 2px solid rgb(189, 69, 33);
+    background-color: rgb(255, 255, 255);
+    font-weight: bold;
+padding: 10px;
 
+
+}
+
+
+.label p {
+    color:rgb(189, 69, 33);
+    font-weight: bold;
+    margin-bottom: 0rem;
+    font-size: 1rem;
+ 
 }
 input {
     height: 2rem;
 }
 
 .error{
-    color: red;
+    color: rgb(189, 69, 33);
 }

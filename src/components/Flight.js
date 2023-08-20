@@ -5,6 +5,8 @@ import { faPlane } from "@fortawesome/free-solid-svg-icons";
 
 const Flight = ({ flightDetails }) => {
   const plane = <FontAwesomeIcon icon={faPlane} />;
+  const hours = Math.floor(flightDetails.flightDuration / 60);
+  const minutes = flightDetails.flightDuration % 60;
 
   return (
     <div className="flight-card">
@@ -21,7 +23,7 @@ const Flight = ({ flightDetails }) => {
 
             <div className="flight-travel flight-info">
               <p className="flight-info-upper">
-                {flightDetails.flightDuration}
+                {hours}h {minutes}m
               </p>
 
               <svg className="icon-way" viewBox="0 0 341 32">
